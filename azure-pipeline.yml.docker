@@ -1,0 +1,58 @@
+# Azure Pipeline using bash.
+# azure-pipelines.yml
+
+trigger:
+- master
+
+resources:
+  containers:
+  - container: terraformlatest
+    image: hashicorp/terraform:latest
+
+
+jobs:
+
+- job: terraformvalidate
+  displayName: Terraform Validate
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  container: terraformlatest
+  steps:
+  - script: |
+      terraform version
+
+
+# variables:
+#   PLAN: plan.tfplan
+#   TF_VAR_FILE: test.tf-test
+
+
+
+# - job: validate
+# steps:
+# # terraform validate
+# - task: Bash@1
+#   displayName: terraform-validate
+#   type: inline
+#   script: 'terraform init'
+#   inputs:
+#     #targetType: 'filePath' # Optional. Options: filePath, inline
+#     #filePath: # Required when targetType == FilePath
+#     #arguments: # Optional
+#     #script: '# Write your commands here# Use the environment variables input below to pass secret variables to this script' # Required when targetType == Inline
+#     #workingDirectory: # Optional
+#     #failOnStderr: false # Optional
+#     #noProfile: true # Optional
+#     #noRc: true # Optiona
+# 
+# - terraform init
+#     - terraform validate -var-file=$TF_VAR_FILE -input=false
+# 
+# 
+# echo $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+# 
+# steps:
+# - task: DownloadPipelineArtifact@0
+#   inputs:
+#     artifactName: 'artifactName'
+#     targetPath: $(System.DefaultWorkingDirectory)
